@@ -4664,7 +4664,7 @@ concierge-bell:
       - attention
       - hotel
       - receptionist
-      - service
+      - Service
       - support
   styles:
     - solid
@@ -18402,7 +18402,7 @@ taxi:
       - cab
       - cabbie
       - car
-      - car service
+      - car Service
       - lyft
       - machine
       - transportation
