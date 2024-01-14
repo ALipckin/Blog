@@ -33,7 +33,7 @@
                   <label>Название</label>
                   <input type="text" class="form-control" name="name" placeholder="name"
                   value="{{$user->name}}">
-                  @error('title')
+                  @error('name')
                     <div class="text-danger">{{$message}}</div>
                   @enderror
               </div>
@@ -41,9 +41,25 @@
                     <label>Название</label>
                     <input type="text" class="form-control" name="email" placeholder="email"
                            value="{{$user->email}}">
-                    @error('title')
+                    @error('email')
                     <div class="text-danger">{{$message}}</div>
                     @enderror
+                </div>
+                <div class="form-group w-50">
+                    <label>Выберите пользователя</label>
+                    <select name="role" class="form-control">
+                        @foreach($roles as $id => $role)
+                            <option value="{{ $id}}"
+                                {{$id == $user->role ? 'selected' : ''}}
+                            >{{$role}}</option>
+                        @endforeach
+                    </select>
+                    @error('role')
+                    <div class="text-danger">{{$message}}</div>
+                    @enderror
+                </div>
+                <div class="form-group w-50">
+                    <input type="hidden" name="user_id" value="{{$user->id}}">
                 </div>
               <input type="submit" class="btn btn-primary" value="Обновить">
             </form>
