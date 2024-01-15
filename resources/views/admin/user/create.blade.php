@@ -43,7 +43,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label>Название</label>
+                    <label>Пароль</label>
                     <input type="text" class="form-control" name="password" placeholder="password">
                     @error('password')
                     <div class="text-danger">{{$message}}</div>
