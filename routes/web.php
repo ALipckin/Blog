@@ -11,7 +11,7 @@ Route::group(['namespace' => 'Main'], function(){
     Route::get('/','IndexController');
 });
 
-Route::group(['namespace'=> 'Admin', 'prefix'=>'admin', 'middleware' => ['auth', 'admin']], function(){
+Route::group(['namespace'=> 'Admin', 'prefix'=>'admin', 'middleware' => ['auth', 'admin', 'verified']], function(){
     Route::group(['namespace'=> 'Main'], function(){
         Route::get('/', 'IndexController');
     });
@@ -56,5 +56,5 @@ Route::group(['namespace'=> 'Admin', 'prefix'=>'admin', 'middleware' => ['auth',
         Route::patch('/{user}', 'UpdateController')->name('admin.user.update');
         Route::delete('/{user}', 'DeleteController')->name('admin.user.delete');
     });
-
 });
+Auth::routes(['verify' => true]);
