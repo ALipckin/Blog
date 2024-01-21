@@ -11,6 +11,22 @@ Route::group(['namespace' => 'Main'], function(){
     Route::get('/','IndexController');
 });
 
+Route::group(['namespace'=> 'Personal', 'prefix'=>'personal', 'middleware' => ['auth', 'verified']], function(){
+    Route::group(['namespace'=> 'Comment', 'prefix' => 'comments'], function(){
+        Route::get('/', 'IndexController')->name('personal.comment.index');
+        Route::get('/{comment}/edit', 'EditController')->name('personal.comment.edit');
+        Route::patch('/{comment}', 'UpdateController')->name('personal.comment.update');
+        Route::delete('/{comment}', 'DeleteController')->name('personal.comment.delete');
+    });
+    Route::group(['namespace'=> 'Main'], function(){
+        Route::get('/', 'IndexController')->name('personal.main.index');
+    });
+    Route::group(['namespace'=> 'Liked', 'prefix' => 'liked'], function(){
+        Route::get('/', 'IndexController')->name('personal.liked.index');
+        Route::delete('/', 'DeleteController')->name('personal.liked.delete');
+    });
+});
+
 Route::group(['namespace'=> 'Admin', 'prefix'=>'admin', 'middleware' => ['auth', 'admin', 'verified']], function(){
     Route::group(['namespace'=> 'Main'], function(){
         Route::get('/', 'IndexController')->name('admin.main.index');
@@ -23,11 +39,10 @@ Route::group(['namespace'=> 'Admin', 'prefix'=>'admin', 'middleware' => ['auth',
         Route::get('/{post}', 'ShowController')->name('admin.post.show');
         Route::get('/{post}/edit', 'EditController')->name('admin.post.edit');
         Route::put('/{post}', 'UpdateController')->name('admin.post.update');
-        Route::patch('/{post}', 'UpdateController')->name('admin.post.update');
         Route::delete('/{post}', 'DeleteController')->name('admin.post.delete');
     });
 
-    Route::group(['namespace' => 'Category', 'prefix'=>'category'], function(){
+    Route::group(['namespace' => 'category', 'prefix'=>'category'], function(){
         Route::get('/', 'IndexController')->name('admin.category.index');
         Route::get('/create', 'CreateController')->name('admin.category.create');
         Route::post('/', 'StoreController')->name('admin.category.store');
@@ -57,4 +72,5 @@ Route::group(['namespace'=> 'Admin', 'prefix'=>'admin', 'middleware' => ['auth',
         Route::delete('/{user}', 'DeleteController')->name('admin.user.delete');
     });
 });
+
 Auth::routes(['verify' => true]);
