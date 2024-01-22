@@ -8,8 +8,13 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['namespace' => 'Main'], function(){
-    Route::get('/','IndexController');
+    Route::get('/','IndexController')->name('main.index');
 });
+Route::group(['namespace' => 'Post', 'prefix' => 'posts'], function(){
+    Route::get('/','IndexController')->name('post.index');
+});
+
+
 
 Route::group(['namespace'=> 'Personal', 'prefix'=>'personal', 'middleware' => ['auth', 'verified']], function(){
     Route::group(['namespace'=> 'Comment', 'prefix' => 'comments'], function(){
