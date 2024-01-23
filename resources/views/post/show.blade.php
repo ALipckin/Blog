@@ -18,47 +18,79 @@
             </section>
             <div class="row">
                 <div class="col-lg-9 mx-auto">
+
+                    <section class="py-3">
+                        @auth()
+                        <form action="{{route('post.like.store', $post->id)}}" method="post">
+                            @csrf
+                            <span>{{$post->liked_users_count}}</span>
+                            <button type="submit" class="border-0 bg-transparent">
+
+                                    @if(auth()->user()->likedPosts->contains($post->id))
+                                        <i class="fas fa-heart"></i>
+                                    @else
+                                        <i class="far fa-heart"></i>
+                                    @endif
+
+                            </button>
+                        </form>
+                        @endauth
+                            @guest()
+                                <div>
+                                    <span>{{$post->liked_users_count}}</span>
+                                    <i class="far fa-heart"></i>
+                                </div>
+                            @endguest
+                    </section>
+
+                    @if($relatedPosts->count() > 0)
                     <section class="related-posts">
                         <h2 class="section-title mb-4 aos-init" data-aos="fade-up">Схожие посты</h2>
                         <div class="row">
-                            @foreach($relatedPosts as $post)
+                            @foreach($relatedPosts as $relatedPost)
                             <div class="col-md-4 aos-init" data-aos="fade-right" data-aos-delay="100">
-                                <img src="{{asset('storage/'. $post->main_image)}}" alt="related post" class="post-thumbnail">
-                                <p class="post-category">{{$post->category->title}}</p>
-                                <a href="{{route('post.show', $post->id)}}"><h5 class="post-title">{{$post->title}}</h5></a>
+                                <img src="{{asset('storage/'. $relatedPost->main_image)}}" alt="related post" class="post-thumbnail">
+                                <p class="post-category">{{$relatedPost->category->title}}</p>
+                                <a href="{{route('post.show', $relatedPost->id)}}"><h5 class="post-title">{{$relatedPost->title}}</h5></a>
                             </div>
                             @endforeach
                     </section>
+                    @endif
                     <section class="comment-section">
-                        <h2 class="section-title mb-5 aos-init" data-aos="fade-up">Leave a Reply</h2>
-                        <form action="/" method="post">
+                        <h2 class="section-title mb-5" data-aos="fade-up">Комментарии ({{$post->comments->count()}})</h2>
+
+                        <section class="comment-list mb-4">
+                        @foreach($post->comments as $comment)
+                        <div class="comment-text mb-3">
+                        <span class="username">
+                            <div>
+                                {{$comment->user->name}}
+                            </div>
+                          <span class="text-muted float-right">{{$comment->dateAsCarbon->diffForHumans()}}</span>
+                        </span><!-- /.username -->
+                            {{$comment->message}}
+                        </div>
+                        @endforeach
+                    </section>
+                        @auth()
+                    <section class="comment-section">
+                        <h2 class="section-title mb-5 aos-init" data-aos="fade-up">Отправить комментарии</h2>
+                        <form action="{{route('post.comment.store', $post->id)}}" method="post">
+                            @csrf
                             <div class="row">
                                 <div class="form-group col-12 aos-init" data-aos="fade-up">
                                     <label for="comment" class="sr-only">Comment</label>
-                                    <textarea name="comment" id="comment" class="form-control" placeholder="Comment" rows="10">Comment</textarea>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-4 aos-init" data-aos="fade-right">
-                                    <label for="name" class="sr-only">Name</label>
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name*">
-                                </div>
-                                <div class="form-group col-md-4 aos-init" data-aos="fade-up">
-                                    <label for="email" class="sr-only">Email</label>
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="Email*" required="">
-                                </div>
-                                <div class="form-group col-md-4 aos-init" data-aos="fade-left">
-                                    <label for="website" class="sr-only">Website</label>
-                                    <input type="url" name="website" id="website" class="form-control" placeholder="Website*">
+                                    <textarea name="message" id="comment" class="form-control" placeholder="Напишите комментарий:" rows="10"></textarea>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 aos-init" data-aos="fade-up">
-                                    <input type="submit" value="Send Message" class="btn btn-warning">
+                                    <input type="submit" value="Добавить" class="btn btn-warning">
                                 </div>
                             </div>
                         </form>
                     </section>
+                    @endauth()
                 </div>
             </div>
         </div>

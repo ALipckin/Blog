@@ -23,19 +23,20 @@
                 </button>
                 <div class="collapse navbar-collapse" id="edicaMainNav">
                     <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('main.index')}}">Блог</a>
                         </li>
-
-                    <ul class="navbar-nav mt-2 mt-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="flag-icon flag-icon-squared rounded-circle flag-icon-gb"></span> Eng</a>
+                            <a class="nav-link" href="{{route('category.index')}}">Категории</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Download</a>
+                            @auth()
+                            <a class="nav-link" href="{{route('personal.main.index')}}">Личный кабинет</a>
+                            @endauth
+                            @guest()
+                            <a class="nav-link" href="{{route('personal.main.index')}}">Войти</a>
+                            @endguest
                         </li>
                     </ul>
                 </div>
@@ -44,16 +45,8 @@
     </header>
 
     @yield('content')
-    <section class="edica-footer-banner-section">
-        <div class="container">
-            <div class="footer-banner" data-aos="fade-up">
-                <h1 class="banner-title">Download it now.</h1>
-                <div class="banner-btns-wrapper">
-                    <button class="btn btn-success"> <img src="{{asset('assets/images/android@1x.svg')}}" alt="android" class="mr-2"> Google Play</button>
-                </div>
-                <p class="banner-text">Add some helper text here to explain the finer details of your <br> product or service.</p>
-            </div>
-        </div>
+    <section class="edica-footer-banner-section mt-5">
+
     </section>
     <footer class="edica-footer" data-aos="fade-up">
         <div class="container">
