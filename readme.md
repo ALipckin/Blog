@@ -1,0 +1,6 @@
+# Blog
+___
+## Installation
+- composer install
+- php artisan storage:link
+- php artisan migrate
