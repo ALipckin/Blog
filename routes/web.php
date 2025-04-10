@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -58,7 +59,7 @@ Route::group(['namespace'=> 'Admin', 'prefix'=>'admin', 'middleware' => ['auth',
         Route::delete('/{post}', 'StoreController')->name('admin.post.delete');
     });
 
-    Route::group(['namespace' => 'category', 'prefix'=>'category'], function(){
+    Route::group(['namespace' => 'Category', 'prefix'=>'category'], function(){
         Route::get('/', 'IndexController')->name('admin.category.index');
         Route::get('/create', 'CreateController')->name('admin.category.create');
         Route::post('/', 'StoreController')->name('admin.category.store');
