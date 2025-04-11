@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
  */
 class PostFactory extends Factory
 {
-
+    private $imagesFolderPath;
     /**
      * Define the model's default state.
      *
@@ -21,14 +21,25 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        $imagePath = 'storage/app/public/images';
+        $this->imagesFolderPath = storage_path('app/public/images/');
+
+        $previewImage = $this->checkAndCreateImage('cat-preview.jpg');
+        $mainImage = $this->checkAndCreateImage('cat-main.jpg');
 
         return [
             'title' => fake()->name(),
             'content' => fake()->text(),
             'category_id' => Category::factory()->create()->id,
-            'preview_image' => '/images/cat-preview.jpg',
-            'main_image' => '/images/cat-main.jpg',
+            'preview_image' => $previewImage,
+            'main_image' => $mainImage,
         ];
+    }
+
+    private function checkAndCreateImage(string $imageName) : string
+    {
+        if(!file_exists($this->imagesFolderPath . $imageName)) {
+            copy('database/factories/images/' . $imageName, $this->imagesFolderPath .$imageName);
+        }
+        return '/images/'.$imageName;
     }
 }
