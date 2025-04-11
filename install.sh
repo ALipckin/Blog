@@ -8,7 +8,7 @@ docker compose exec app bash -c "
   composer install &&
   php artisan key:generate &&
   php artisan config:cache &&
-  php artisan migrate --force &&
+  php artisan migrate:fresh --seed &&
   php artisan storage:link &&
   npm install &&
   npm run build
