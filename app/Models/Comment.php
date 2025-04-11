@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 class Comment extends Model
 {
     use HasFactory;
-    protected $table = 'Comments';
+    protected $table = 'comments';
     protected $guarded = false;
 
     public function User(){
